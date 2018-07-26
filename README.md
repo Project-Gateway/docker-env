@@ -9,13 +9,20 @@ You'll need to have on your machine:
 
 ## Bring the env up
 
-Use the docker-compose command (we strongly advice to create a alias `dc` for docker-composer on your command line
-profile) to control de env.
+Use the docker-compose command to control de env build/start/stop.
 
-On the first run:
-`dc run login-ui bash`
+It's strongly adviced to create a alias `dc` for docker-composer (since we'll use it all the time).
+Just put this line on your profile script and restart the command line:
+`alias dc=docker-compose`
 
-`docker-composer up -d`
+On the first run, you'll have to run this commands:
+`dc run login-api composer install`
+`dc run login-api php artisan migrate:fresh --seed`
+
+
+To bring the env up (every time you start to work):
+`dc up -d`
+
 
 ## Dealing with SSL certificates
 
