@@ -15,9 +15,14 @@ It's strongly adviced to create a alias `dc` for docker-composer (since we'll us
 Just put this line on your profile script and restart the command line:
 `alias dc=docker-compose`
 
+First build the containers, without initializing them (to avoid dependencies problems):
+`dc build`
+
 On the first run, you'll have to run this commands:
+`dc run cp .env.example .env`
 `dc run login-api composer install`
 `dc run login-api php artisan migrate:fresh --seed`
+`dc run web-ui npm install`
 
 
 To bring the env up (every time you start to work):

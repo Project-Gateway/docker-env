@@ -1,3 +1,3 @@
-FROM node:9
+FROM node:10
 
-#RUN npm install extract-text-webpack-plugin
+RUN npm install --global vue-cli
