@@ -19,7 +19,7 @@ First build the containers, without initializing them (to avoid dependencies pro
 `dc build`
 
 On the first run, you'll have to run this commands:
-- `dc run cp .env.example .env`
+- `dc run login-api cp .env.example .env`
 - `dc run login-api composer install`
 - `dc run login-api php artisan migrate:fresh --seed`
 - `dc run web-ui npm install`
