@@ -1,6 +1,7 @@
 version: '3'
 services:
 
+  # Nginx server that proxies all http requests
   web:
     build:
       context: services/web
@@ -18,7 +19,9 @@ services:
     depends_on:
       - login-api
       - web-ui
+      - graphql-api
 
+  # Vue application for Web Client Application
   web-ui:
       build:
         context: services/client
@@ -27,12 +30,11 @@ services:
         - NODE_ENV=development
       volumes:
         - ../web-ui:/client
-#        - ./docker/ssl/server.crt:/etc/ssl/certs/server.crt
-#        - ./docker/ssl/server.key:/etc/ssl/private/server.key
       ports:
         - 8081:8080
       command: "npm run dev"
 
+  # Laravel based login API
   login-api:
     build:
       context: services/api
@@ -41,15 +43,59 @@ services:
     depends_on:
       - postgres
 
+  # Postgraphile service
+  graphql-api:
+    build:
+      context: services/graphql
+    volumes:
+      - ./services/graphql/wait_for_postgres.sh:/wait_for_postgres.sh
+      - ../graphql-api:/graphql-api
+    working_dir: /graphql-api
+    command:
+      - "/wait_for_postgres.sh"
+      - "postgres://graphql:graphql@postgres:5432/postgres"
+      - "nodemon index.js"
+
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres
+
+  # Command line application to manage the db code (schema version, migrations, etc)
+  db:
+    build:
+      context: services/db-control
+    working_dir: /db
+    volumes:
+      - ../db-control:/db
+    entrypoint: ["php", "db"]
+    depends_on:
+      - postgres
+
+  # Main database
   postgres:
     build:
       context: services/postgres
     command: postgres -c logging_collector=on -c log_destination=stderr -c log_directory=/var/log/postgres -c config_file=/etc/postgres/postgresql.conf
     volumes:
-      - ./services/postgres/data:/var/lib/postgresql/data
+      - .db_data:/var/lib/postgresql/data
       - ./services/postgres/logs:/var/log/postgres
       - ./services/postgres/config:/etc/postgres
     ports:
       - 5432:5432
     environment:
       - "POSTGRES_PASSWORD=postgres"
+
+  redis:
+    image: redis
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 9001:80
+    environment:
+      - "PGADMIN_DEFAULT_EMAIL=local"
+      - "PGADMIN_DEFAULT_PASSWORD=local"
+
+volumes:
+  db_data:

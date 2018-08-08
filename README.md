@@ -11,7 +11,7 @@ You'll need to have on your machine:
 
 Use the docker-compose command to control de env build/start/stop.
 
-It's strongly adviced to create a alias `dc` for docker-composer (since we'll use it all the time).
+It's highly recommended to create a alias `dc` for docker-composer (since we'll use it all the time).
 Just put this line on your profile script and restart the command line:
 `alias dc=docker-compose`
 
@@ -23,6 +23,7 @@ On the first run, you'll have to run this commands:
 - `dc run login-api composer install`
 - `dc run login-api php artisan migrate:fresh --seed`
 - `dc run web-ui npm install`
+- `dc run graphql-api npm install`
 
 
 To bring the env up (every time you start to work):
