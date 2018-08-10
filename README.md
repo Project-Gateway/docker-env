@@ -20,6 +20,7 @@ First build the containers, without initializing them (to avoid dependencies pro
 
 On the first run, you'll have to run this commands:
 - `dc run login-api cp .env.example .env`
+- `dc run --entrypoint="" db cp .env.example .env`
 - `dc run login-api composer install`
 - `dc run --entrypoint="" db composer install`
 - `dc run db migrate:fresh --seed`
