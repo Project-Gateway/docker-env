@@ -11,25 +11,28 @@ You'll need to have on your machine:
 
 Use the docker-compose command to control de env build/start/stop.
 
-It's highly recommended to create a alias `dc` for docker-composer (since we'll use it all the time).
-Just put this line on your profile script and restart the command line:
+It's highly recommended to create a alias `dc` for docker-compose (since we'll use it all the time).
+It's also recommended to create an alias for dc passing the docker-env docker-compose.yml file as parameter,
+this way we can call it from any place on your machine.
+Just put this lines on your profile script and restart the command line:
 `alias dc=docker-compose`
+`alias dco="docker-composer -f <path-to-your-docker-env-docker-compose.yml>"`
 
 First build the containers, without initializing them (to avoid dependencies problems):
-`dc build`
+`dco build`
 
 On the first run, you'll have to run this commands:
-- `dc run login-api cp .env.example .env`
-- `dc run --entrypoint="" db cp .env.example .env`
-- `dc run login-api composer install`
-- `dc run --entrypoint="" db composer install`
-- `dc run db migrate:fresh --seed`
-- `dc run web-ui npm install`
-- `dc run graphql-api npm install`
+- `dco run login-api cp .env.example .env`
+- `dco run --entrypoint="" db cp .env.example .env`
+- `dco run login-api composer install`
+- `dco run --entrypoint="" db composer install`
+- `dco run db migrate:fresh --seed`
+- `dco run web-ui npm install`
+- `dco run graphql-api npm install`
 
 
 To bring the env up (every time you start to work):
-`dc up -d`
+`dco up -d`
 
 
 ## Dealing with SSL certificates
