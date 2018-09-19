@@ -16,6 +16,7 @@ services:
       - ./services/web/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
       - ./services/ssl/server.crt:/etc/ssl/certs/server.crt
       - ./services/ssl/server.key:/etc/ssl/private/server.key
+
     depends_on:
       - login-api
       - web-ui
@@ -34,12 +35,20 @@ services:
         - 8081:8080
       command: "npm run dev"
 
-  # Laravel based login API
+  # Lumen based login API
   login-api:
     build:
       context: services/api
     volumes:
       - ../login-api:/var/www/api
+    depends_on:
+      - postgres
+
+  schedule-api:
+    build:
+      context: services/api
+    volumes:
+      - ../schedule-api:/var/www/api
     depends_on:
       - postgres
 
