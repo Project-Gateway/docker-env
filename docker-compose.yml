@@ -14,6 +14,7 @@ services:
       - ./services/web/conf/snippets/self-signed.conf:/etc/nginx/snippets/self-signed.conf
       - ./services/web/conf/snippets/ssl-params.conf:/etc/nginx/snippets/ssl-params.conf
       - ./services/web/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
+      - ../appointments:/var/www/api
       - ./services/ssl/server.crt:/etc/ssl/certs/server.crt
       - ./services/ssl/server.key:/etc/ssl/private/server.key
 
@@ -49,6 +50,14 @@ services:
       context: services/api
     volumes:
       - ../schedule-api:/var/www/api
+    depends_on:
+      - postgres
+
+  appointments:
+    build:
+      context: services/api
+    volumes:
+      - ../appointments:/var/www/api
     depends_on:
       - postgres
 
