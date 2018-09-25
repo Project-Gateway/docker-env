@@ -109,6 +109,11 @@ services:
     ports:
       - 6379:6379
 
+  mockserver:
+    image: jamesdbloom/mockserver
+    ports:
+      - "1080:1080"
+
   pgadmin:
     image: dpage/pgadmin4
     ports:

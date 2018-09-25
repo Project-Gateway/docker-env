@@ -14,3 +14,5 @@ COPY "./install_composer.sh" "install_composer.sh"
 RUN bash install_composer.sh
 
 RUN rm install_composer.sh
+
+RUN composer global require hirak/prestissimo
