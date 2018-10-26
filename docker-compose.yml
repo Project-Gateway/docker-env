@@ -21,7 +21,6 @@ services:
     depends_on:
       - login-api
       - web-ui
-      - graphql-api
 
   # Vue application for Web Client Application
   web-ui:
@@ -49,7 +48,7 @@ services:
     build:
       context: services/api
     volumes:
-      - ../schedule-api:/var/www/api
+      - ../schedule-api:/var/www/api:cached
     depends_on:
       - postgres
 
@@ -57,7 +56,7 @@ services:
     build:
       context: services/api
     volumes:
-      - ../appointments:/var/www/api
+      - ../appointments:/var/www/api:cached
     depends_on:
       - postgres
 
@@ -80,15 +79,15 @@ services:
       - postgres
 
   # Command line application to manage the db code (schema version, migrations, etc)
-  db:
-    build:
-      context: services/db-control
-    working_dir: /db
-    volumes:
-      - ../db-control:/db
-    entrypoint: ["php", "db"]
-    depends_on:
-      - postgres
+#  db:
+#    build:
+#      context: services/db-control
+#    working_dir: /db
+#    volumes:
+#      - ../db-control:/db
+#    entrypoint: ["php", "db"]
+#    depends_on:
+#      - postgres
 
   # Main database
   postgres:
@@ -109,10 +108,10 @@ services:
     ports:
       - 6379:6379
 
-  mockserver:
-    image: jamesdbloom/mockserver
-    ports:
-      - "1080:1080"
+#  mockserver:
+#    image: jamesdbloom/mockserver
+#    ports:
+#      - "1080:1080"
 
   pgadmin:
     image: dpage/pgadmin4
