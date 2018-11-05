@@ -40,7 +40,7 @@ services:
     build:
       context: services/api
     volumes:
-      - ../login-api:/var/www/api
+      - login-api-sync:/var/www/api:nocopy
     depends_on:
       - postgres
 
@@ -48,7 +48,7 @@ services:
     build:
       context: services/api
     volumes:
-      - ../schedule-api:/var/www/api:cached
+      - schedule-api-sync:/var/www/api
     depends_on:
       - postgres
 
@@ -123,3 +123,7 @@ services:
 
 volumes:
   db_data:
+  login-api-sync:
+    external: true
+  schedule-api-sync:
+    external: true

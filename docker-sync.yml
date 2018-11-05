@@ -1,0 +1,12 @@
+version: "2"
+
+options:
+  verbose: true
+
+syncs:
+  login-api-sync: # tip: add -sync and you keep consistent names as a convention
+    src: '../login-api'
+    sync_userid: '33'
+  schedule-api-sync: # tip: add -sync and you keep consistent names as a convention
+    src: '../schedule-api'
+    sync_userid: '33'
